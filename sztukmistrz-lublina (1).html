@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sztukmistrz z Lublina — Znajdę Ci Mieszkanie</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;800;900&family=Barlow:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Barlow+Semi+Condensed:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red:    #FA1414;
+    --green:  #73BE46;
+    --black:  #000000;
+    --white:  #FFFFFF;
+    --gray:   #1A1A1A;
+    --gray-mid: #2E2E2E;
+    --gray-text: #888888;
+    --red-dim:   rgba(250, 20, 20, 0.10);
+    --green-dim: rgba(115, 190, 70, 0.10);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    font-size: 17px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  .label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gray-text);
+    display: block;
+    margin-bottom: 1rem;
+  }
+  .label-red { color: var(--red); }
+  .label-green { color: var(--green); }
+
+  h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    font-weight: 800;
+    line-height: 1.0;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+  }
+  h2 .r { color: var(--red); }
+  h2 .g { color: var(--green); }
+
+  p { color: rgba(255,255,255,0.6); line-height: 1.75; }
+
+  .lead {
+    font-size: 1.12rem;
+    color: rgba(255,255,255,0.75);
+    max-width: 620px;
+    line-height: 1.8;
+  }
+
+  /* NAV */
+  .nav {
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 1.2rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(0,0,0,0.96);
+  }
+  .nav-brand {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .nav-brand span { color: var(--red); }
+  .nav-sub {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gray-text);
+  }
+  .nav-btn {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--white);
+    text-decoration: none;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    padding: 0.5rem 1.5rem;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .nav-btn:hover { border-color: var(--red); color: var(--red); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-content {
+    padding: 5rem 2.5rem 0;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .hero-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 2rem;
+  }
+  .hero-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(5rem, 13vw, 10.5rem);
+    font-weight: 900;
+    line-height: 0.88;
+    text-transform: uppercase;
+    letter-spacing: -2px;
+  }
+  .hero-title .t1 { color: var(--red); display: block; }
+  .hero-title .t2 { color: var(--white); display: block; }
+  .hero-title .t3 {
+    display: block;
+    font-size: clamp(1.6rem, 3.5vw, 3rem);
+    font-weight: 300;
+    letter-spacing: 4px;
+    color: rgba(255,255,255,0.35);
+    margin-top: 0.6rem;
+  }
+
+  .hero-bottom {
+    border-top: 1px solid rgba(255,255,255,0.09);
+    margin-top: 3rem;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 2rem;
+    padding: 1.75rem 2.5rem;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+  .hero-tagline { font-size: 0.95rem; color: rgba(255,255,255,0.45); line-height: 1.6; }
+  .hero-tagline strong {
+    display: block;
+    font-style: normal;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--white);
+    margin-bottom: 0.3rem;
+  }
+  .hero-eye { text-align: center; }
+  .hero-cta-wrap { text-align: right; }
+
+  .btn-red {
+    display: inline-block;
+    background: var(--red);
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 1rem 2.5rem;
+    text-decoration: none;
+    border: 2px solid var(--red);
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-red:hover { background: transparent; color: var(--red); }
+
+  .btn-out {
+    display: inline-block;
+    background: transparent;
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 1rem 2.5rem;
+    text-decoration: none;
+    border: 2px solid rgba(255,255,255,0.22);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-out:hover { border-color: var(--green); color: var(--green); }
+
+  /* WRAPPER */
+  .wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 7rem 2.5rem;
+  }
+  .wrap-dark {
+    background: var(--gray);
+    padding: 7rem 2.5rem;
+  }
+  .wrap-dark .wrap-inner { max-width: 1100px; margin: 0 auto; }
+
+  .hr { height: 1px; background: rgba(255,255,255,0.07); margin: 0; }
+
+  /* STORY */
+  .story-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    margin-top: 3.5rem;
+    align-items: start;
+  }
+  .story-quote {
+    border-left: 4px solid var(--red);
+    padding: 1.75rem 2rem 1.75rem 2.25rem;
+    background: var(--red-dim);
+    margin: 2rem 0;
+  }
+  .story-quote p { font-style: italic; font-size: 1.1rem; color: rgba(255,255,255,0.88); line-height: 1.7; }
+  .story-quote cite {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-top: 1rem;
+    font-style: normal;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(255,255,255,0.06);
+    margin-top: 3.5rem;
+  }
+  .stat-cell {
+    background: var(--black);
+    padding: 2.5rem 2rem;
+    border-top: 3px solid var(--green);
+  }
+  .stat-cell.r { border-top-color: var(--red); }
+  .stat-cell.w { border-top-color: rgba(255,255,255,0.35); }
+  .stat-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 3.8rem;
+    font-weight: 900;
+    color: var(--green);
+    line-height: 1;
+    display: block;
+  }
+  .stat-cell.r .stat-num { color: var(--red); }
+  .stat-cell.w .stat-num { color: rgba(255,255,255,0.6); }
+  .stat-lbl {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    display: block;
+    margin-top: 0.3rem;
+  }
+
+  /* PERSONA */
+  .persona-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.06);
+    margin-top: 3.5rem;
+  }
+  .persona-cell {
+    background: var(--black);
+    padding: 2rem 1.75rem;
+    transition: background 0.2s;
+  }
+  .persona-cell:hover { background: var(--gray); }
+  .persona-cell .num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: rgba(255,255,255,0.05);
+    line-height: 1;
+    margin-bottom: 0.75rem;
+  }
+  .persona-cell .tag-pill {
+    display: inline-block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: var(--green-dim);
+    color: var(--green);
+    padding: 0.2rem 0.6rem;
+    border-left: 2px solid var(--green);
+    margin-bottom: 0.75rem;
+  }
+  .persona-cell strong {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--white);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .persona-cell p { font-size: 0.88rem; color: rgba(255,255,255,0.45); margin: 0; line-height: 1.6; }
+
+  /* PAIN */
+  .pain-t {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 3rem;
+    font-size: 0.92rem;
+  }
+  .pain-t thead th {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    padding: 1rem 1.5rem;
+    border-bottom: 2.5px solid;
+    text-align: left;
+  }
+  .pain-t thead th:first-child { border-color: var(--red); color: var(--red); }
+  .pain-t thead th:last-child  { border-color: var(--green); color: var(--green); }
+  .pain-t td {
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    vertical-align: top;
+    line-height: 1.65;
+    font-size: 0.91rem;
+  }
+  .pain-t td:first-child {
+    color: rgba(255,255,255,0.48);
+    font-style: italic;
+    width: 50%;
+    border-right: 1px solid rgba(255,255,255,0.05);
+  }
+  .pain-t td:last-child { color: rgba(255,255,255,0.78); }
+
+  /* SERVICES */
+  .svc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.06);
+    margin-top: 3.5rem;
+  }
+  .svc-cell {
+    background: var(--black);
+    padding: 2.5rem 2rem;
+    transition: background 0.2s;
+  }
+  .svc-cell:hover { background: var(--gray); }
+  .svc-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--red);
+    line-height: 1;
+    display: block;
+    margin-bottom: 1rem;
+  }
+  .svc-cell h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--white);
+    margin-bottom: 0.75rem;
+    line-height: 1.2;
+  }
+  .svc-cell p { font-size: 0.87rem; color: rgba(255,255,255,0.48); margin: 0; line-height: 1.65; }
+
+  /* BONUSY */
+  .bonus-list { list-style: none; margin-top: 3rem; display: flex; flex-direction: column; gap: 1px; background: rgba(255,255,255,0.06); }
+  .bonus-item {
+    background: var(--gray);
+    display: grid;
+    grid-template-columns: 2.5rem 1fr auto;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem 2.5rem;
+    transition: background 0.2s;
+  }
+  .bonus-item:hover { background: #2a2a2a; }
+  .bonus-idx {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--green);
+    text-align: center;
+    line-height: 1;
+  }
+  .bonus-item strong {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--white);
+    margin-bottom: 0.3rem;
+  }
+  .bonus-item p { font-size: 0.87rem; color: rgba(255,255,255,0.48); margin: 0; line-height: 1.55; }
+  .bonus-val {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--green);
+    white-space: nowrap;
+    text-align: right;
+  }
+  .bonus-val span {
+    display: block;
+    font-weight: 400;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+    margin-bottom: 0.2rem;
+  }
+
+  /* CENA */
+  .price-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-top: 4rem;
+    align-items: start;
+  }
+  .price-card {
+    border: 1px solid rgba(255,255,255,0.11);
+    padding: 3rem;
+    position: relative;
+    border-top: 3px solid var(--red);
+  }
+  .price-tag-lbl {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--red);
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+  .price-big {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 5rem;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1;
+    display: block;
+  }
+  .price-unit {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+  .price-hr { height: 1px; background: rgba(255,255,255,0.09); margin: 1.75rem 0; }
+  .price-plus {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.4);
+    display: block;
+  }
+  .price-pct {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 3.8rem;
+    font-weight: 900;
+    color: var(--red);
+    line-height: 1;
+    display: block;
+  }
+  .price-note { font-size: 0.85rem; color: rgba(255,255,255,0.38); margin-top: 1rem; line-height: 1.65; }
+
+  .cmp-t { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .cmp-t th {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    text-align: left;
+    font-weight: 600;
+  }
+  .cmp-t td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.45);
+  }
+  .cmp-t tr.hl td { background: rgba(250,20,20,0.08); color: var(--white); }
+  .cmp-t tr.hl td:first-child {
+    color: var(--red);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  .ck { color: var(--green); font-weight: 700; }
+  .cx { color: rgba(255,255,255,0.18); }
+
+  /* GWARANCJA BAR */
+  .guar-bar {
+    background: var(--red);
+    padding: 4.5rem 2.5rem;
+    text-align: center;
+  }
+  .guar-bar .guar-big {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(4rem, 10vw, 7rem);
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .guar-bar h2 { color: var(--white); font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 1rem; }
+  .guar-bar p { color: rgba(255,255,255,0.72); max-width: 520px; margin: 0 auto; }
+
+  /* CTA FINAL */
+  .cta-final {
+    padding: 9rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-final::before {
+    content: 'LUBLIN';
+    position: absolute;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22vw;
+    font-weight: 900;
+    color: rgba(255,255,255,0.018);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: -5px;
+  }
+  .cta-final h2 { margin-bottom: 1rem; }
+  .cta-final .lead { margin: 0 auto 3rem; }
+  .cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .contacts {
+    margin-top: 3rem;
+    display: flex;
+    gap: 3rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .contact-block { text-align: center; }
+  .contact-block .cl {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gray-text);
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+  .contact-block a, .contact-block span { font-size: 1rem; color: var(--white); text-decoration: none; }
+  .contact-block a:hover { color: var(--red); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 2rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  footer p {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.18);
+    margin: 0;
+  }
+  .color-dots { display: flex; gap: 5px; align-items: center; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; }
+
+  /* REVEAL */
+  .rv { opacity: 0; transform: translateY(22px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .rv.vis { opacity: 1; transform: none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 800px) {
+    .story-cols, .price-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+    .persona-grid, .svc-grid { grid-template-columns: 1fr 1fr; }
+    .hero-bottom { grid-template-columns: 1fr; gap: 1.5rem; }
+    .hero-cta-wrap { text-align: left; }
+    .bonus-item { grid-template-columns: 2rem 1fr; }
+    .bonus-val { display: none; }
+  }
+  @media (max-width: 540px) {
+    .persona-grid, .svc-grid { grid-template-columns: 1fr; }
+    .hero-title { font-size: 4rem; }
+    footer { flex-direction: column; align-items: flex-start; }
+    .nav-sub { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand"><span>Sztukmistrz</span> z Lublina</div>
+  <div class="nav-sub">Miasto Inspiracji · Obsługa Kupującego</div>
+  <a href="#kontakt" class="nav-btn">Zadzwoń</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <p class="hero-eyebrow">Lublin · Rynek pierwotny i wtórny · Budżet 400k – 1,2 mln PLN</p>
+    <h1 class="hero-title">
+      <span class="t1">Sztukmistrz</span>
+      <span class="t2">z Lublina</span>
+      <span class="t3">Znajdę Ci Mieszkanie</span>
+    </h1>
+  </div>
+  <div class="hero-bottom">
+    <div class="hero-tagline">
+      <strong>Bez iluzji. Bez ściemy.</strong>
+      Jak Jasza Mazur otwierał każdy zamek bez klucza — ja otwieram drzwi do mieszkania, na które czekasz.
+    </div>
+    <div class="hero-eye">
+      <!-- Eye nawiązujące do sygnetu Lublina -->
+      <svg width="58" height="58" viewBox="0 0 58 58" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="29" cy="29" rx="27" ry="17" stroke="#FA1414" stroke-width="2.5"/>
+        <circle cx="29" cy="29" r="9.5" stroke="#73BE46" stroke-width="2.5"/>
+        <circle cx="29" cy="29" r="3.5" fill="#73BE46"/>
+        <line x1="2" y1="29" x2="11" y2="29" stroke="#FA1414" stroke-width="2"/>
+        <line x1="47" y1="29" x2="56" y2="29" stroke="#FA1414" stroke-width="2"/>
+      </svg>
+    </div>
+    <div class="hero-cta-wrap">
+      <a href="#kontakt" class="btn-red">Zacznijmy szukać</a>
+    </div>
+  </div>
+</div>
+
+<div class="hr"></div>
+
+<!-- HISTORIA -->
+<div class="wrap rv">
+  <span class="label label-red">Kim jestem</span>
+  <div class="story-cols">
+    <div>
+      <h2>Jasza widział<br>przez każdą<br><span class="g">iluzję</span></h2>
+      <p style="margin-bottom:1rem;">Jasza Mazur chodził ulicami Lublina i otwierał zamki, które inni uważali za niemożliwe do sforsowania. Widział więcej. Wiedział więcej. Nie dał się omamić pozorami.</p>
+      <p>W odróżnieniu od bohatera powieści Singera — te same umiejętności kieruję od początku wyłącznie <strong style="color:var(--white);">w twoją stronę.</strong></p>
+    </div>
+    <div>
+      <div class="story-quote">
+        <p>Każde mieszkanie ma swoją prawdę. Moim zadaniem jest pokazać ci ją przed podpisaniem — nie po.</p>
+        <cite>— Sztukmistrz z Lublina</cite>
+      </div>
+      <p>Znam każdą iluzję rynku: szerokie kąty obiektywu, renderingi AI, home staging zamieniający 38 m² w apartament. Znam plany zagospodarowania, które za 5 lat zamienią widok na park w ścianę bloku. Widziałem świadectwa energetyczne „E", których koszty rujnują budżet przez dekady.</p>
+    </div>
+  </div>
+  <div class="stat-grid">
+    <div class="stat-cell">
+      <span class="stat-num">60</span>
+      <span class="stat-lbl">dni do aktu notarialnego</span>
+    </div>
+    <div class="stat-cell r">
+      <span class="stat-num">3%</span>
+      <span class="stat-lbl">prowizja — tylko przy sukcesie</span>
+    </div>
+    <div class="stat-cell w">
+      <span class="stat-num">100%</span>
+      <span class="stat-lbl">po twojej stronie — zero konfliktu</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-num">1&nbsp;900</span>
+      <span class="stat-lbl">PLN zadatku zaliczanego na prowizję</span>
+    </div>
+  </div>
+</div>
+
+<div class="hr"></div>
+
+<!-- DLA KOGO -->
+<div class="wrap rv">
+  <span class="label">Dla kogo</span>
+  <h2>Kto trafia do<br><span class="r">Sztukmistrza</span></h2>
+  <p class="lead">Każdy, kto szuka mieszkania w Lublinie i czuje się zagubiony w gąszczu ofert. Budżety 400 000 – 1 200 000 PLN.</p>
+  <div class="persona-grid">
+    <div class="persona-cell">
+      <div class="num">01</div>
+      <span class="tag-pill">Priorytet</span>
+      <strong>Młody Profesjonalista</strong>
+      <p>Pierwsze mieszkanie. Zamiana najmu na własność. Szybki internet, home office.</p>
+    </div>
+    <div class="persona-cell">
+      <div class="num">02</div>
+      <span class="tag-pill">Priorytet</span>
+      <strong>Rodzina na Upgrade</strong>
+      <p>Kawalerka za mała. Dziecko w drodze. 3 pokoje bez miesięcy remontu.</p>
+    </div>
+    <div class="persona-cell">
+      <div class="num">03</div>
+      <span class="tag-pill">Priorytet</span>
+      <strong>Inwestor Gotówkowy</strong>
+      <p>Lokata kapitału. Dochód z najmu i ochrona przed inflacją.</p>
+    </div>
+    <div class="persona-cell">
+      <div class="num">04</div>
+      <span class="tag-pill">Regularny</span>
+      <strong>Rodzic-Fundator</strong>
+      <p>Kupuje dla dziecka na studiach w Lublinie. 5 lat czynszu to pieniądze w błoto.</p>
+    </div>
+    <div class="persona-cell">
+      <div class="num">05</div>
+      <span class="tag-pill">Regularny</span>
+      <strong>Srebrny Downsizing</strong>
+      <p>Sprzedaje dom, szuka wygodnego 2-pokojowego. Winda, apteka, park.</p>
+    </div>
+    <div class="persona-cell">
+      <div class="num">06</div>
+      <span class="tag-pill">Każdy</span>
+      <strong>Chcę Wiedzieć Co Kupuję</strong>
+      <p>Dokumenty, MPZP, klasa energetyczna — sprawdzone przed pokazem, nie po akcie.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CO CIĘ BLOKUJE -->
+<div class="wrap-dark rv">
+  <div class="wrap-inner">
+    <span class="label">Twój problem / Moja odpowiedź</span>
+    <h2>Co cię <span class="r">blokuje</span></h2>
+    <table class="pain-t">
+      <thead>
+        <tr>
+          <th>Mówisz mi...</th>
+          <th>Ja robię to:</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>„W tym bloku pięć identycznych mieszkań, ta sama cena. Czym się różnią?"</td>
+          <td>Sprawdzam piętro, stronę świata, sąsiadów, fundusz remontowy. Wskazuję najlepsze — nie losowe.</td>
+        </tr>
+        <tr>
+          <td>„Klasa energetyczna E w certyfikacie mnie przeraża."</td>
+          <td>Słusznie — +600–900 PLN czynszu miesięcznie przy 50 m². Pokazuję tylko A i B z konkretnymi liczbami.</td>
+        </tr>
+        <tr>
+          <td>„Co wyrośnie za oknem za trzy lata?"</td>
+          <td>MPZP sprawdzony przed każdym pokazem. Dostajesz pisemne potwierdzenie — nie domysły agenta.</td>
+        </tr>
+        <tr>
+          <td>„Daje mi pan 24h na decyzję. To największy wydatek w moim życiu!"</td>
+          <td>Kiedy do ciebie dzwonię, sprawdziłem już wszystko. Twoje pytanie: podoba mi się czy nie.</td>
+        </tr>
+        <tr>
+          <td>„Nie mam ani złotówki zapasu na niespodzianki po akcie."</td>
+          <td>Precyzyjna kalkulacja wszystkich kosztów transakcyjnych zanim złożysz ofertę.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- USŁUGI -->
+<div class="wrap rv">
+  <span class="label label-green">Pakiet usługi</span>
+  <h2>Co otwiera<br><span class="g">Sztukmistrz</span></h2>
+  <p class="lead">Done-for-you. Pełna obsługa kupującego od wyboru dzielnicy do klucza w dłoni.</p>
+  <div class="svc-grid">
+    <div class="svc-cell">
+      <span class="svc-num">01</span>
+      <h3>Doradztwo w wyborze lokalizacji</h3>
+      <p>Śródmieście, Wieniawa, Czuby, Sławin — każda dzielnica ma inną duszę. Dopasujemy ją do twojego życia.</p>
+    </div>
+    <div class="svc-cell">
+      <span class="svc-num">02</span>
+      <h3>Pre-weryfikacja ofert</h3>
+      <p>MPZP, księga wieczysta, klasa energetyczna, historia cen — sprawdzam ZANIM pojawisz się na pokazie.</p>
+    </div>
+    <div class="svc-cell">
+      <span class="svc-num">03</span>
+      <h3>5–7 wyselekcjonowanych pokazów</h3>
+      <p>Nie 20 ślepych oglądań. Tylko mieszkania, które przeszły weryfikację i spełniają twoje kryteria.</p>
+    </div>
+    <div class="svc-cell">
+      <span class="svc-num">04</span>
+      <h3>Analiza porównawcza</h3>
+      <p>Dlaczego TO mieszkanie, a nie tamto — liczby, nie emocje. Czarne na białym.</p>
+    </div>
+    <div class="svc-cell">
+      <span class="svc-num">05</span>
+      <h3>Pełna obsługa negocjacji</h3>
+      <p>Rozmawiam ze sprzedającym w twoim imieniu. Typowa oszczędność: 20 000–40 000 PLN.</p>
+    </div>
+    <div class="svc-cell">
+      <span class="svc-num">06</span>
+      <h3>Prowadzenie do aktu</h3>
+      <p>Od pierwszego kontaktu do podpisu. Zero chaosu. Reprezentuję wyłącznie ciebie.</p>
+    </div>
+  </div>
+</div>
+
+<!-- BONUSY -->
+<div class="wrap-dark rv">
+  <div class="wrap-inner">
+    <span class="label label-green">W cenie — bez dopłat</span>
+    <h2>Trzy <span class="g">sztuczki</span> gratis</h2>
+    <ul class="bonus-list">
+      <li class="bonus-item">
+        <div class="bonus-idx">1</div>
+        <div>
+          <strong>Raport Kupującego dla twojej dzielnicy</strong>
+          <p>MPZP, ceny transakcyjne vs ofertowe, plany inwestycyjne, trendy 12 miesięcy. Dostajesz go przed pierwszym pokazem.</p>
+        </div>
+        <div class="bonus-val"><span>Wartość</span>~800 PLN</div>
+      </li>
+      <li class="bonus-item">
+        <div class="bonus-idx">2</div>
+        <div>
+          <strong>Pre-weryfikacja prawna jednej wybranej oferty</strong>
+          <p>Księga wieczysta, stan prawny, historia własności — zanim pojawi się notariusz. Zero niespodzianek.</p>
+        </div>
+        <div class="bonus-val"><span>Wartość</span>~1 000 PLN</div>
+      </li>
+      <li class="bonus-item">
+        <div class="bonus-idx">3</div>
+        <div>
+          <strong>Checklista „10 pułapek przy kupnie w Lublinie"</strong>
+          <p>Co sprawdzić, czego unikać, jakie pytania zadać. PDF gotowy od razu.</p>
+        </div>
+        <div class="bonus-val"><span>Wartość</span>~300 PLN</div>
+      </li>
+    </ul>
+    <p style="margin-top:1.75rem; font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--green);">
+      Łączna wartość bonusów: 2 100 PLN — zawsze w cenie usługi
+    </p>
+  </div>
+</div>
+
+<!-- CENA -->
+<div class="wrap rv">
+  <span class="label label-red">Inwestycja</span>
+  <h2>Ile kosztuje<br><span class="r">pewność</span></h2>
+  <div class="price-layout">
+    <div class="price-card">
+      <span class="price-tag-lbl">Model Hybrid</span>
+      <span class="price-big">1 900</span>
+      <span class="price-unit">PLN zadatku przy podpisaniu</span>
+      <p class="price-note">Zaliczany w całości na poczet prowizji finalnej. Jeśli nie znajdę mieszkania spełniającego twoje kryteria w ciągu 60 dni — zwracam zadatek w całości.</p>
+      <div class="price-hr"></div>
+      <span class="price-plus">+</span>
+      <span class="price-pct">3%</span>
+      <span class="price-unit" style="margin-top:0.5rem;">przy akcie notarialnym</span>
+      <p class="price-note">Przykład: mieszkanie za 700 000 PLN → prowizja 21 000 PLN. Typowa oszczędność na negocjacjach: 20 000–40 000 PLN.<br><br><strong style="color:rgba(255,255,255,0.65);">Usługa realnie kosztuje cię zero złotych — albo przynosi zysk.</strong></p>
+    </div>
+    <div>
+      <p style="margin-bottom:1.5rem; font-size:0.9rem; color:rgba(255,255,255,0.55);">Dlaczego 3%, skoro rynek pobiera 2–2,5%? Bo jako jedyna agencja pracuję <strong style="color:var(--white);">wyłącznie po stronie kupującego</strong> — bez konfliktu interesów, bez opłat od sprzedających.</p>
+      <table class="cmp-t">
+        <thead>
+          <tr>
+            <th>Kto</th>
+            <th>Prowizja</th>
+            <th>Gwarancja</th>
+            <th>Kupujący</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Typowe biuro</td>
+            <td>2,0–2,5%</td>
+            <td class="cx">✗</td>
+            <td class="cx">✗</td>
+          </tr>
+          <tr>
+            <td>Agent z polecenia</td>
+            <td>2–3%</td>
+            <td class="cx">✗</td>
+            <td class="cx">Częściowo</td>
+          </tr>
+          <tr class="hl">
+            <td>Sztukmistrz</td>
+            <td class="ck">3%</td>
+            <td class="ck">✓</td>
+            <td class="ck">100%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- GWARANCJA -->
+<div class="guar-bar rv">
+  <span class="guar-big">60 dni</span>
+  <h2>Gwarancja zwrotu zadatku</h2>
+  <p>Jeśli w ciągu 60 dni nie przedstawię oferty spełniającej twoje kryteria, 1 900 PLN wraca do ciebie w całości. Żadnych haczyków.</p>
+</div>
+
+<!-- KONTAKT -->
+<div class="cta-final rv" id="kontakt">
+  <span class="label">Kontakt</span>
+  <h2>Zacznijmy szukać<br><span class="r">twojego zamku</span></h2>
+  <p class="lead">Bezpłatna konsultacja — 30 minut, bez zobowiązań. Powiedz mi czego szukasz, ja powiem ci co wiem o tym rynku.</p>
+  <div class="cta-btns">
+    <a href="tel:+48000000000" class="btn-red">Zadzwoń teraz</a>
+    <a href="mailto:kontakt@sztukmistrzzlublina.pl" class="btn-out">Napisz maila</a>
+  </div>
+  <div class="contacts">
+    <div class="contact-block">
+      <span class="cl">Telefon</span>
+      <a href="tel:+48000000000">+48 000 000 000</a>
+    </div>
+    <div class="contact-block">
+      <span class="cl">Email</span>
+      <a href="mailto:kontakt@sztukmistrzzlublina.pl">kontakt@sztukmistrzzlublina.pl</a>
+    </div>
+    <div class="contact-block">
+      <span class="cl">Obszar działania</span>
+      <span>Lublin i okolice</span>
+    </div>
+    <div class="contact-block">
+      <span class="cl">Odpowiadam w</span>
+      <span>4 godziny</span>
+    </div>
+  </div>
+</div>
+
+<div class="hr"></div>
+
+<footer>
+  <p>Sztukmistrz z Lublina · Obsługa Kupującego · Lublin 2026</p>
+  <div class="color-dots">
+    <div class="dot" style="background:#FA1414;" title="PANTONE 485 C"></div>
+    <div class="dot" style="background:#73BE46;" title="PANTONE 369 C"></div>
+    <div class="dot" style="background:#fff;" title="Biały"></div>
+    <p style="margin-left:8px;">Kolory wg SIW Miasta Lublin 2015</p>
+  </div>
+  <p>Nawiązanie do powieści I.B. Singera</p>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(
+    es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); }),
+    { threshold: 0.08 }
+  );
+  document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
